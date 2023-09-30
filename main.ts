@@ -92,7 +92,7 @@ export default class TitleAsLinkTextPlugin extends Plugin {
       const newFileContent = fileContent.replace(
         /\[(.*?)\]\(<?([^>]+)>?\)/g,
         (_, linkText, linkUrl) => {
-          const linUrlDecoded = linkUrl
+          const linkUrlDecoded = linkUrl
           // const linkUrlDecoded = decodeURIComponent(linkUrl);
           if (basename(linkUrlDecoded) === basename(oldPath)) {
             return `[${title}](<${linkUrl}>)`;
