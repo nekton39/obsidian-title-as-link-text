@@ -90,9 +90,10 @@ export default class TitleAsLinkTextPlugin extends Plugin {
     for (let note of notes) {
       const fileContent = await this.app.vault.read(note);
       const newFileContent = fileContent.replace(
-        /\[(.*?)\]\(([^)]+\)?\S*?)\)/g,
+        /\[(.*?)\]\(<?([^>]+)>?\)/g,
         (_, linkText, linkUrl) => {
-          const linkUrlDecoded = decodeURIComponent(linkUrl);
+          const linUrlDecoded = linkUrl
+          // const linkUrlDecoded = decodeURIComponent(linkUrl);
           if (basename(linkUrlDecoded) === basename(oldPath)) {
             return `[${title}](${linkUrl})`;
           }
