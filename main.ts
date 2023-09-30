@@ -95,9 +95,9 @@ export default class TitleAsLinkTextPlugin extends Plugin {
           const linUrlDecoded = linkUrl
           // const linkUrlDecoded = decodeURIComponent(linkUrl);
           if (basename(linkUrlDecoded) === basename(oldPath)) {
-            return `[${title}](${linkUrl})`;
+            return `[${title}](<${linkUrl}>)`;
           }
-          return `[${linkText}](${linkUrl})`;
+          return `[${linkText}](<${linkUrl}>)`;
         }
       );
 
