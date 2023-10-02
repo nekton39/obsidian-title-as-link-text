@@ -75,16 +75,9 @@ export default class TitleAsLinkTextPlugin extends Plugin {
   async updateBackLinks(file: TFile, oldPath: string, notify: boolean) {
     if (
       !oldPath ||
+      !file.path.toLocaleLowerCase().endsWith(".md") ||
       !(file instanceof TFile)
     ) {
-      return;
-    }
-
-    const ext = getExt(file.path.toLocaleLowerCase());
-    if (
-      ext &&
-      !file.path.toLocaleLowerCase().endsWith(".md")
-    ){
       return;
     }
 
@@ -106,7 +99,14 @@ export default class TitleAsLinkTextPlugin extends Plugin {
       const newFileContent = fileContent.replace(
         /\[(.*?)\]\((<([^>]+)>|(.+))\)/g,
         (_, linkText, __, linkUrl_1, linkUrl_2) => {
-          const linkUrl = linkUrl_1 || linkUrl_2;
+          let linkUrl = linkUrl_1 || linkUrl_2;
+	  const base = basename(linkUrl);
+	  const ext = getExt(base);
+
+	  if(!ext){
+	    linkUrl += ".md";
+	  }
+		
           //const linkUrlDecoded = linkUrl
           const linkUrlDecoded = decodeURIComponent(linkUrl);
           if (basename(linkUrlDecoded) === basename(oldPath)) {
