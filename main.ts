@@ -12,6 +12,13 @@ function basename(path: string): string {
   let base = new String(path).substring(path.lastIndexOf("/") + 1);
   return base;
 }
+//ファイル名から拡張子を取得する関数
+function getExt(filename)
+{
+	var pos = filename.lastIndexOf('.');
+	if (pos === -1) return '';
+	return filename.slice(pos + 1);
+}
 
 export default class TitleAsLinkTextPlugin extends Plugin {
   private debouncedUpdateBackLinks: (
@@ -68,9 +75,16 @@ export default class TitleAsLinkTextPlugin extends Plugin {
   async updateBackLinks(file: TFile, oldPath: string, notify: boolean) {
     if (
       !oldPath ||
-      !file.path.toLocaleLowerCase().endsWith(".md") ||
       !(file instanceof TFile)
     ) {
+      return;
+    }
+
+    const ext = getExt(file.path.toLocaleLowerCase());
+    if (
+      ext &&
+      !file.path.toLocaleLowerCase().endsWith(".md")
+    ){
       return;
     }
 
